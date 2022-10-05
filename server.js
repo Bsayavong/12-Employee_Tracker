@@ -71,7 +71,7 @@ function questions() {
 };
 
 
-// function is called when VIEW DEPARTMENT is chosen
+// function is called when "view department" is selected
 function viewDepartments() {
     db.query('SELECT department.id AS Department_ID, department.name AS Department_Name FROM department', (err, res) => {
         if (err) {
@@ -84,7 +84,7 @@ function viewDepartments() {
 };
 
 
-// function is called when VIEW ROLES is chosen
+// function is called when "view roles" is selected
 function viewRoles() {
     db.query('SELECT role.id AS Role_ID, role.title AS Role_Title, role.salary AS Salary, department.name AS Department_Name FROM role JOIN department ON role.department_id = department.id', (err, res) => {
         if (err) {
@@ -98,7 +98,7 @@ function viewRoles() {
 };
 
 
-// function is called when VIEW EMPLOYEES is chosen
+// function is called when "view employees" is selected
 function viewEmployees() {
     db.query(`SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS department, CONCAT(e2.first_name, ' ', e2.last_name) AS manager FROM employee LEFT JOIN employee as e2 ON e2.id = employee.manager_id JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id;`, (err, res) => {
         if (err) {
@@ -111,7 +111,7 @@ function viewEmployees() {
 };
 
 
-// function is called when ADD DEPARTMENT is chosen
+// function is called when "add department" is selected
 function addDepartment() {
     inquirer.prompt([{
         type: "input",
@@ -135,7 +135,7 @@ function addDepartment() {
 }
 
 
-// function is called when ADD ROLE is chosen
+// function is called when "add role" is selected
 function addRole() {
     inquirer.prompt([{
         type: "input",
@@ -173,7 +173,7 @@ function addRole() {
 }
 
 
-// function is called when ADD EMPLOYEE is chosen
+// function is called when "add employee" is selected
 function addEmployee() {
     inquirer.prompt([{
             type: "input",
@@ -216,7 +216,7 @@ function addEmployee() {
 };
 
 
-// function is called when UPDATE EMPLOYEE is chosen
+// function is called when "update employee" is selected
 function updateEmployee() {
     let employeesList
 
