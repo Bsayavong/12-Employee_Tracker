@@ -19,7 +19,8 @@
   "homepage": "https://github.com/Bsayavong/12-Employee_Tracker#readme",
   "dependencies": {
     "console.table": "^0.10.0",
-    "inquirer": "^9.1.2",
+    "dotenv": "^16.0.3",
+    "inquirer": "8.0.0",
     "mysql2": "^2.3.3"
   }
 }
