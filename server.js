@@ -191,7 +191,7 @@ function addEmployee() {
         }, {
             type: "list",
             message: "Who is their manager?",
-            choices: [""],
+            choices: ["null"],
             name: "manager"
         }
 
@@ -227,7 +227,7 @@ function updateEmployee() {
             return `${employee.first_name} ${employee.last_name}`
         })
         console.log(employeesList);
-        prompt([{
+        inquirer.prompt([{
             type: "list",
             message: "Who's role would you like to update?",
             choices: employeesList,

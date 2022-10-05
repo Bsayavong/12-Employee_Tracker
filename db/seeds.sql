@@ -2,7 +2,7 @@ INSERT INTO department (name)
 VALUES
     ('Executive'),
     ('Development'),
-    ('Design'),
+    ('Account Support'),
     ('Sales');
 
 
