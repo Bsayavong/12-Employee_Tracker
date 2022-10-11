@@ -22,21 +22,21 @@ console.log(`Connected to the employees_db database.`)
 
 
 // places existing departments into the specified array
-db.query("SELECT name FROM department", function (err, res) {
+db.query("SELECT id, name FROM department", function (err, res) {
     if (err) throw err;
 
     res.forEach(department => {
-        departments.push(department.name);
+        departments.push({name: department.name, value: department.id});
     });
 });
 
 
 // places existing roles into the specified array
-db.query("SELECT title FROM role", function (err, res) {
+db.query("SELECT id, title FROM role", function (err, res) {
     if (err) throw err;
 
     res.forEach(role => {
-        roles.push(role.title);
+        roles.push({name: role.title, value: role.id});
     });
 });
 
@@ -110,6 +110,19 @@ function viewEmployees() {
     })
 };
 
+// Get managers
+function getEmployees() {
+    db.query(`SELECT employee.id as value, CONCAT(employee.first_name, ' ', employee.last_name) AS name FROM employee;`, (err, res) => {
+        if (err) {
+            throw err
+        } else {
+            console.log (res)
+            return res
+        } 
+    })
+    
+}
+
 
 // function is called when "add department" is selected
 function addDepartment() {
@@ -175,7 +188,9 @@ function addRole() {
 
 // function is called when "add employee" is selected
 function addEmployee() {
-    inquirer.prompt([{
+    db.query(`SELECT employee.id as value, CONCAT(employee.first_name, ' ', employee.last_name) AS name FROM employee;`, (err, employees) => {
+        if (err) throw err;
+        inquirer.prompt([{
             type: "input",
             message: "What is the employee's first name?",
             name: "firstName"
@@ -191,27 +206,25 @@ function addEmployee() {
         }, {
             type: "list",
             message: "Who is their manager?",
-            choices: ["null"],
+            choices: employees,
             name: "manager"
         }
 
     ]).then(answer => {
-        employeeFirstName = answer.firstName;
-        employeeLastName = answer.lastName;
+        const employeeFirstName = answer.firstName;
+        const employeeLastName = answer.lastName;
 
-        db.query("INSERT INTO employee SET ?", {
-                employeeFirstName: employee.first_name,
-                employeeLastName: employee.last_name,
-                role_id: res[0].id
-            },
+        db.execute("INSERT INTO employee (first_name, last_name, role_id, manager_id) values (?,?,?,?)",
+            [answer.firstName, answer.lastName, answer.role, answer.manager], 
             function (err) {
                 if (err) throw err;
                 console.log("the employee added");
 
-
             })
         questions();
     });
+    })
+    
 
 };
 
